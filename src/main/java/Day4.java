@@ -32,7 +32,7 @@ void main() throws Exception{
 
 private int check(char[][] input, int x, int y) {
     //go clockwise
-    var expected = new char[]{'M','A','S'};
+    var expected = new char[]{'M','A','S'}; //checking for 'X' at start not necessary
     int sum = 0;
     if(x<input[y].length-3){
         //checkEast
@@ -72,15 +72,17 @@ private int check(char[][] input, int x, int y) {
 
 private int check2(char[][] input, int x, int y) {
 
-    var expected = new char[]{'M','A','S'}; //checking for 'A' in middle not necessary
-    var expected2 = new char[]{'S','A','M'};
+    var expected = new char[]{'M','S'}; //checking for 'A' in middle not necessary
+    var expected2 = new char[]{'S','M'};
     boolean foundNWSE = false;
     boolean foundSWNE = false;
     if(x<input[y].length-1 && x>0){
         if(y>0 && y<input.length-1){
             //checkNorthWestSouthEast
-            foundNWSE = Arrays.equals(new char[]{input[y-1][x-1],input[y][x],input[y+1][x+1]}, expected) || Arrays.equals(new char[]{input[y-1][x-1],input[y][x],input[y+1][x+1]}, expected2);
-            foundSWNE = Arrays.equals(new char[]{input[y+1][x-1],input[y][x],input[y-1][x+1]}, expected) || Arrays.equals(new char[]{input[y+1][x-1],input[y][x],input[y-1][x+1]}, expected2);
+            var nwse = new char[]{input[y-1][x-1],input[y+1][x+1]};
+            var swne = new char[]{input[y+1][x-1],input[y-1][x+1]};
+            foundNWSE = Arrays.equals(nwse, expected) || Arrays.equals(nwse, expected2);
+            foundSWNE = Arrays.equals(swne, expected) || Arrays.equals(swne, expected2);
         }
     }
     return (foundNWSE && foundSWNE)?1:0;
