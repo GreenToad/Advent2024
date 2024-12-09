@@ -1,5 +1,7 @@
 void main() throws Exception{
+    //as usual input like that is [y][x]
     char[][] inputTransposed = Files.readAllLines(Path.of("input/Day6.input" )).stream().map(String::toCharArray).toArray(char[][]::new);
+    //lets try and have fun with addressing it [x][y] to make it more sane
     char[][] map = new char[inputTransposed[0].length][inputTransposed.length];
 
     for (int i = 0; i < inputTransposed.length; i++)
@@ -76,29 +78,34 @@ void main() throws Exception{
     //so we need to run simulation as many times as answer to part 1 -1 (my case 4373) and checking if we exit or hit a loop
 
 
+    byte[][] visitedDirection = new byte[map.length][map[0].length];
+
+    //lets find the guard again
+    //clear his starting position from visited 2d array
+    //run simulation again
 
 }
 
 enum Direction {
-    UP(0,-1) {
+    UP(0,-1, (byte) (1<<0)) {
         @Override
         Direction rotate() {
             return RIGHT;
         }
     },
-    RIGHT(1,0) {
+    RIGHT(1,0, (byte) (1<<1)) {
         @Override
         Direction rotate() {
             return DOWN;
         }
     },
-    DOWN(0,1) {
+    DOWN(0,1, (byte) (1<<2)) {
         @Override
         Direction rotate() {
             return LEFT;
         }
     },
-    LEFT(-1,0) {
+    LEFT(-1,0,(byte)(1<<3)) {
         @Override
         Direction rotate() {
             return UP;
@@ -107,10 +114,12 @@ enum Direction {
 
     public final int dx;
     public final int dy;
+    public final int mask;
 
-    Direction(int dx, int dy) {
+    Direction(int dx, int dy, byte mask) {
         this.dx = dx;
         this.dy = dy;
+        this.mask = mask;
     }
 
     public static Direction parse(char c){
